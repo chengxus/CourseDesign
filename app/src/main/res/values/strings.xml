@@ -1,0 +1,19 @@
+<resources>
+    <string name="set_question">请选择考试类型</string>
+    <string name="question_type1">c1科目一</string>
+    <string name="question_type2">c1科目四</string>
+    <string name="question_type_save">确定</string>
+    <string name="app_name">驾考评测</string>
+    <string name="exercise_0">顺序练习</string>
+    <string name="exercise_1">随机练习</string>
+    <string name="exercise_2">章节练习</string>
+    <string name="exercise_3">筛选练习</string>
+    <string name="exercise_4">模拟考试</string>
+    <string name="exercise_5">我的收藏</string>
+    <string name="exercise_6">我的错题</string>
+    <string name="exercise_7">历史成绩</string>
+    <string name="item1">上一题</string>
+    <string name="item2">解析</string>
+    <string name="item4">收藏</string>
+    <string name="item5">下一题</string>
+</resources>
