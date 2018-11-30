@@ -42,9 +42,23 @@ public class QuestionJudgeFragment extends Fragment {
         }catch (Exception e){
             e.printStackTrace();
         }
+        //是否已查看解析
         if(questionData.lookTheExplain){
             radioButton1.setEnabled(false);
             radioButton2.setEnabled(false);
+        }
+        if(questionData.multiChoiceAnswer!=0){
+            radioButton1.setEnabled(false);
+            radioButton2.setEnabled(false);
+            //判题
+            String text = null;
+            if(questionData.checkanswer(questionData.multiChoiceAnswer)){
+                text = "回答正确\n";
+            }else {
+                text = "回答错误\n";
+            }
+            text = text + questionData.currentQuestion().getQuestionExplain();
+            textView.setText(text);
         }
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

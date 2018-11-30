@@ -1,5 +1,6 @@
 package com.zua.cx.coursedesign2application;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,8 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Button;
 
 import com.zua.cx.coursedesign2application.model.QuestionData;
 
@@ -41,20 +41,34 @@ public class RecyclerViewFragment extends Fragment {
         mTypeRecyclerView.setAdapter(mAdapter);
     }
 
-    private class TypeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class TypeHolder extends RecyclerView.ViewHolder{
 
-        private TextView textView = null;
+        private Button buttonView = null;
         //题目id
         private int id;
 
         public TypeHolder(LayoutInflater inflater,ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_option_for_type_chapter,parent,false));
-            textView        = itemView.findViewById(R.id.type_and_chapte_button);
-            itemView.setOnClickListener(this);
+            buttonView        = itemView.findViewById(R.id.type_and_chapte_button);
+            buttonView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    QuestionData questionData = null;
+                    try{
+                        questionData = QuestionData.getQuestionData();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    //创建题目
+                    questionData.createQuestions(questionData.saveType,questionData.saveExamType,id);
+                    Intent intent = new Intent(getActivity(),QuestionActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
 
         public void bind(String str){
-            textView.setText(str);
+            buttonView.setText(str);
             QuestionData questionData = null;
             try{
                 questionData = QuestionData.getQuestionData();
@@ -64,20 +78,7 @@ public class RecyclerViewFragment extends Fragment {
             id = questionData.getIDByName(str);
         }
 
-        @Override
-        public void onClick(View v) {
-            QuestionData questionData = null;
-            try{
-                questionData = QuestionData.getQuestionData();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            //创建题目
-            questionData.createQuestions(questionData.saveType,questionData.saveExamType,id);
-            Toast.makeText(getActivity(),
-                    id + " clicked!", Toast.LENGTH_SHORT)
-                    .show();
-        }
+
     }
     private class TypeAdapter extends RecyclerView.Adapter<TypeHolder>{
         private List<String> typeList = null;
@@ -100,7 +101,6 @@ public class RecyclerViewFragment extends Fragment {
         //获取RecyclerView的长度
         @Override
         public int getItemCount() {
-            int x = typeList.size();
             return typeList.size();
         }
     }

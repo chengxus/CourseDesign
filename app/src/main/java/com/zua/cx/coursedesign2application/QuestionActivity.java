@@ -84,7 +84,7 @@ public class QuestionActivity extends AppCompatActivity {
         });
     }
     //更新题目信息
-    private void updateQuestion(){
+    public void updateQuestion(){
         String problem = questionData.currentQuestion().getQuestionProblem();
         questionText.setText(problem);
         int type = questionData.currentQuestion().getQuestionType();
@@ -120,6 +120,8 @@ public class QuestionActivity extends AppCompatActivity {
         //若本题已查看解析
         if(questionData.lookTheExplain){
             questionExplain.setText(questionData.currentQuestion().getQuestionExplain());
+        }else{
+            questionExplain.setText("");
         }
     }
     //获取intent

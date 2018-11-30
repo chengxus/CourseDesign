@@ -15,7 +15,7 @@ import java.util.Random;
  */
 public class QuestionData {
 
-    //多选题使用
+    //保存答案
     public static int multiChoiceAnswer = 0;
     //用户是否看解析
     public static boolean lookTheExplain = false;
@@ -33,11 +33,12 @@ public class QuestionData {
     //通过题目类型生成题目type表示题目类型，questionType表示考试类型,context用于实例化数据库连接，id表示用于分类的id
     public void createQuestions(int type, int examType, int id){
         index = 0;
+        questions   = new ArrayList<>();
         QuestionTable questionTable = new QuestionTable(context);
         Cursor cursor = null;
-        switch (type){
+        switch (questionData.saveType){
             case 2:
-                cursor = questionTable.select(" carpassid="+examType+" AND chapter="+id);
+                cursor = questionTable.select(" carpassid="+examType+" AND chapterid="+id);
                 break;
             case 3:
                 cursor = questionTable.select(" carpassid="+examType+" AND selectid="+id);
@@ -45,10 +46,8 @@ public class QuestionData {
             default:
                 break;
         }
-        if(cursor!=null){
-            while(cursor.moveToNext()){
-                questions.add(cursor.getString(0));
-            }
+        while(cursor.moveToNext()){
+            questions.add(cursor.getString(0));
         }
     }
 
@@ -212,7 +211,12 @@ public class QuestionData {
     //获取题目分类与单元
     public List<String> getQuestionTypeByType(String type){
         CataLogTable cataLogTable = new CataLogTable(context);
-        List<String> typeList=cataLogTable.getListByType("select");
+        List<String> typeList;
+        if(saveType==2){
+            typeList=cataLogTable.getListByType("chapter");
+        }else{
+            typeList=cataLogTable.getListByType("select");
+        }
         return typeList;
     }
     //通过name获取id

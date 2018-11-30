@@ -45,14 +45,29 @@ public class OneOptionFragment extends Fragment {
         radioButton2.setText(questionData.currentQuestion().getOption2());
         radioButton3.setText(questionData.currentQuestion().getOption3());
         radioButton4.setText(questionData.currentQuestion().getOption4());
-
+        //若已查看解析
         if(questionData.lookTheExplain){
             radioButton1.setEnabled(false);
             radioButton2.setEnabled(false);
             radioButton3.setEnabled(false);
             radioButton4.setEnabled(false);
         }
-
+        //若已作答
+        if(questionData.multiChoiceAnswer!=0){
+            radioButton1.setEnabled(false);
+            radioButton2.setEnabled(false);
+            radioButton3.setEnabled(false);
+            radioButton4.setEnabled(false);
+            //判题
+            String text;
+            if(questionData.checkanswer(questionData.multiChoiceAnswer)){
+                text = "回答正确\n";
+            }else {
+                text = "回答错误\n";
+            }
+            text = text + questionData.currentQuestion().getQuestionExplain();
+            textView.setText(text);
+        }
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

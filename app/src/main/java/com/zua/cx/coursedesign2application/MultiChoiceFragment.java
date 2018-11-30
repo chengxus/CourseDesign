@@ -50,13 +50,32 @@ public class MultiChoiceFragment extends Fragment {
         checkBox2.setText(questionData.currentQuestion().getOption2());
         checkBox3.setText(questionData.currentQuestion().getOption3());
         checkBox4.setText(questionData.currentQuestion().getOption4());
-
+        //是否查看解析
         if (questionData.lookTheExplain){
             checkBox1.setEnabled(false);
             checkBox2.setEnabled(false);
             checkBox3.setEnabled(false);
             checkBox4.setEnabled(false);
             button.setEnabled(false);
+        }
+        //是否作答
+        if(questionData.multiChoiceAnswer!=0){
+            checkBox1.setEnabled(false);
+            checkBox2.setEnabled(false);
+            checkBox3.setEnabled(false);
+            checkBox4.setEnabled(false);
+            button.setEnabled(false);
+            if(!questionData.lookTheExplain){
+                //判题
+                String text;
+                if(questionData.checkanswer(questionData.multiChoiceAnswer)){
+                    text = "回答正确\n";
+                }else {
+                    text = "回答错误\n";
+                }
+                text = text + questionData.currentQuestion().getQuestionExplain();
+                textView.setText(text);
+            }
         }
         //设置监听器
         checkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
