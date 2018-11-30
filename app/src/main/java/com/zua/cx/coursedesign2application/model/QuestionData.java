@@ -19,6 +19,9 @@ public class QuestionData {
     public static int multiChoiceAnswer = 0;
     //用户是否看解析
     public static boolean lookTheExplain = false;
+    //传输数据
+    public static int saveType;
+    public static int saveExamType;
 
     private static QuestionData questionData = null;
     //存储当前题目索引
@@ -209,7 +212,13 @@ public class QuestionData {
     //获取题目分类与单元
     public List<String> getQuestionTypeByType(String type){
         CataLogTable cataLogTable = new CataLogTable(context);
-        List<String> typeList=cataLogTable.getMapByType("select");
+        List<String> typeList=cataLogTable.getListByType("select");
         return typeList;
+    }
+    //通过name获取id
+    public int getIDByName(String name){
+        CataLogTable cataLogTable = new CataLogTable(context);
+        int type=cataLogTable.getIDByName(name);
+        return type;
     }
 }

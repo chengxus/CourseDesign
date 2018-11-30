@@ -26,13 +26,15 @@ public class ChoosePageActivity extends AppCompatActivity {
 
     //获取Intent
     public static Intent getIntent(Context context){
-        Intent intent = new Intent(context,QuestionActivity.class);
+        Intent intent = new Intent(context,ChoosePageActivity.class);
         return intent;
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_choose_page);
+
         FragmentManager fm = getSupportFragmentManager();
         Fragment recyclerView = fm.findFragmentById(R.id.choose_page_fragment);
         if(recyclerView==null){

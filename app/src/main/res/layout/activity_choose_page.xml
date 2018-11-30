@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ChoosePageActivity">
-    <fragment
+    <FrameLayout
         android:id="@+id/choose_page_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </fragment>
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -64,6 +64,8 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 QuestionData questionData = QuestionData.getQuestionData(HomePageActivity.this);
+                questionData.saveType=2;
+                questionData.saveExamType=3;
                 Intent intent = ChoosePageActivity.getIntent(HomePageActivity.this);
                 startActivity(intent);
             }
@@ -73,6 +75,8 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 QuestionData questionData = QuestionData.getQuestionData(HomePageActivity.this);
+                questionData.saveType=3;
+                questionData.saveExamType=3;
                 Intent intent = ChoosePageActivity.getIntent(HomePageActivity.this);
                 startActivity(intent);
             }
@@ -132,9 +136,8 @@ public class HomePageActivity extends AppCompatActivity {
 
 //        测试用该部分
 //        Log.i("test","运行至此");
-//        QuestionData questionData = QuestionData.getQuestionData(0,3,HomePageActivity.this);
-//        questionData.createQuestions(0,3,HomePageActivity.this);
-//        Intent intent = QuestionActivity.getIntent(HomePageActivity.this);
+//        QuestionData questionData = QuestionData.getQuestionData(HomePageActivity.this);
+//        Intent intent = ChoosePageActivity.getIntent(HomePageActivity.this);
 //        startActivity(intent);
     }
 }
