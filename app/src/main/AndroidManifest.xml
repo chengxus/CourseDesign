@@ -22,7 +22,8 @@
         <activity android:name=".HomePageActivity" />
         <activity android:name=".InitSettingActivity" />
         <activity android:name=".QuestionActivity" />
-        <activity android:name=".ChoosePageActivity"></activity>
+        <activity android:name=".ChoosePageActivity" />
+        <activity android:name=".ShowGradeActivity"></activity>
     </application>
 
 </manifest>

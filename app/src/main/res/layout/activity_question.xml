@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintStart_toStartOf="parent">
 
         <FrameLayout
             android:id="@+id/question_img"
@@ -43,13 +42,23 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="33dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="4dp"
         android:orientation="horizontal"
         android:stretchColumns="*"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/question_save_button"
+            android:layout_marginLeft="130dp"
+            android:layout_marginRight="130dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="交卷"
+            android:textColor="#00ee00" />
 
         <TableRow>
 
@@ -88,4 +97,7 @@
                 android:drawableTop="@drawable/right_button" />
         </TableRow>
     </TableLayout>
+
+
+
 </android.support.constraint.ConstraintLayout>

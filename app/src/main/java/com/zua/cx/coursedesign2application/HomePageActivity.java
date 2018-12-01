@@ -45,7 +45,7 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 QuestionData questionData = QuestionData.getQuestionData(0,3,HomePageActivity.this);
-                questionData.createQuestions(0,3);
+                questionData.createQuestions(0,carpassid);
                 Intent intent = QuestionActivity.getIntent(HomePageActivity.this);
                 startActivity(intent);
             }
@@ -54,7 +54,7 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 QuestionData questionData = QuestionData.getQuestionData(1,3,HomePageActivity.this);
-                questionData.createQuestions(1,3);
+                questionData.createQuestions(1,carpassid);
                 Intent intent = QuestionActivity.getIntent(HomePageActivity.this);
                 startActivity(intent);
             }
@@ -65,7 +65,7 @@ public class HomePageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 QuestionData questionData = QuestionData.getQuestionData(HomePageActivity.this);
                 questionData.saveType=2;
-                questionData.saveExamType=3;
+                questionData.saveExamType=carpassid;
                 Intent intent = ChoosePageActivity.getIntent(HomePageActivity.this);
                 startActivity(intent);
             }
@@ -76,7 +76,7 @@ public class HomePageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 QuestionData questionData = QuestionData.getQuestionData(HomePageActivity.this);
                 questionData.saveType=3;
-                questionData.saveExamType=3;
+                questionData.saveExamType=carpassid;
                 Intent intent = ChoosePageActivity.getIntent(HomePageActivity.this);
                 startActivity(intent);
             }
@@ -86,7 +86,7 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 QuestionData questionData = QuestionData.getQuestionData(4,3,HomePageActivity.this);
-                questionData.createQuestions(4,2);
+                questionData.createQuestions(4,carpassid);
                 Intent intent = QuestionActivity.getIntent(HomePageActivity.this);
                 startActivity(intent);
             }
@@ -127,12 +127,22 @@ public class HomePageActivity extends AppCompatActivity {
         return intent;
     }
 
+    //carpassid
+    private int carpassid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         setButton();
         setOnClicker();
+        QuestionData questionData = QuestionData.getQuestionData(HomePageActivity.this);
+        carpassid = questionData.getExamType(HomePageActivity.this);
+        if(carpassid==2){
+            mButton8.setText("C1 科目一");
+        }
+        if(carpassid==3){
+            mButton8.setText("C1 科目四");
+        }
 
 //        测试用该部分
 //        Log.i("test","运行至此");

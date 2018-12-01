@@ -6,9 +6,9 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 public abstract class UserDatabase {
-    private Context mContext;
+    public Context mContext;
     private String table;
-    private SQLiteDatabase mDatabase;
+    public SQLiteDatabase mDatabase;
 
     public UserDatabase(Context context){
         mContext = context.getApplicationContext();
@@ -47,7 +47,7 @@ public abstract class UserDatabase {
     }
 
     //查询满足条件的总数
-    public Cursor selectCount(String where){
+    public int selectCount(String where) throws SQLException{
         if(table!=null){
             Cursor cursor = mDatabase.query(table,
                     new String[]{"count(*)"},
@@ -57,10 +57,15 @@ public abstract class UserDatabase {
                     null,
                     null
             );
-            return cursor;
+            int count = 0;
+            while(cursor.moveToNext()){
+                count++ ;
+            }
+            return count;
         }else{
-            new SQLException("请表名不能为空");
-            return null;
+            throw new SQLException("请表名不能为空");
         }
     }
+    //插入新记录
+
 }

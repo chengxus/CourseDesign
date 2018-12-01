@@ -34,6 +34,7 @@ public class QuestionActivity extends AppCompatActivity {
     private Button button3;
     private Button button4;
     private Button button5;
+    private Button saveButton;
     //绑定组件
     private void setView(){
         fragmentImg     = (FrameLayout) findViewById(R.id.question_img);
@@ -49,6 +50,8 @@ public class QuestionActivity extends AppCompatActivity {
         button4         = (Button)      findViewById(R.id.table_button4);
         //下一题
         button5         = (Button)      findViewById(R.id.table_button5);
+        //交卷
+        saveButton      = (Button)      findViewById(R.id.question_save_button);
     }
     //绑定监听器
     private void setClick(){
@@ -80,6 +83,13 @@ public class QuestionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Question question = questionData.nextQuestion();
                 updateQuestion();
+            }
+        });
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = ShowGradeActivity.getIntent(QuestionActivity.this,100);
+                startActivity(intent);
             }
         });
     }
@@ -122,6 +132,10 @@ public class QuestionActivity extends AppCompatActivity {
             questionExplain.setText(questionData.currentQuestion().getQuestionExplain());
         }else{
             questionExplain.setText("");
+        }
+        if(questionData.saveType!=4){
+            //View.INVISIBLE可以隐藏但按钮存在不影响布局View.GONE，去掉该控件影响布局
+            saveButton.setVisibility(View.INVISIBLE);
         }
     }
     //获取intent

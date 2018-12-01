@@ -4,8 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 
+import com.zua.cx.coursedesign2application.MainActivity;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -32,11 +36,12 @@ public class QuestionData {
 
     //通过题目类型生成题目type表示题目类型，questionType表示考试类型,context用于实例化数据库连接，id表示用于分类的id
     public void createQuestions(int type, int examType, int id){
+        saveType = type ;
         index = 0;
         questions   = new ArrayList<>();
         QuestionTable questionTable = new QuestionTable(context);
         Cursor cursor = null;
-        switch (questionData.saveType){
+        switch (type){
             case 2:
                 cursor = questionTable.select(" carpassid="+examType+" AND chapterid="+id);
                 break;
@@ -53,6 +58,7 @@ public class QuestionData {
 
     //创建题目列表type表示题目类型，questionType表示考试类型,context用于实例化数据库连接
     public void createQuestions(int type, int examType){
+        saveType = type;
         index = 0;
         QuestionTable questionTable = new QuestionTable(context);
         Cursor cursor = null;
@@ -224,5 +230,30 @@ public class QuestionData {
         CataLogTable cataLogTable = new CataLogTable(context);
         int type=cataLogTable.getIDByName(name);
         return type;
+    }
+    //修改题库
+    public boolean changeCarPassID(int id){
+        UserDataTable userDataTable = new UserDataTable(context);
+        long temp;
+        if(userDataTable.selectCount("1=1")>0){
+             temp= userDataTable.updateList("current_pass_id",new Integer(id).toString());
+        }else {
+            List<String> list = new ArrayList<>();
+            list.add(new Integer(id).toString());
+            list.add("0");
+            temp = userDataTable.insertList(list);
+        }
+        return temp > 0;
+    }
+    //获取当前题库类型
+    public int getExamType(Context context){
+        UserDataTable userDataTable = new UserDataTable(context);
+        Cursor cursor = userDataTable.selectByID(0);
+        int examType = 0;
+        if(cursor.moveToNext()){
+             examType= cursor.getInt(1);
+        }
+        saveExamType = examType;
+        return examType;
     }
 }

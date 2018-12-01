@@ -17,28 +17,25 @@
             android:text="@string/set_question"
             android:textSize="30sp"/>
         <RadioGroup
+            android:id="@+id/init_radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal">
             <RadioButton
+                android:id="@+id/init_radio_button1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/question_type1"
                 android:textSize="30sp"/>
             <RadioButton
+                android:id="@+id/init_radio_button2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/question_type2"
                 android:textSize="30sp"/>
         </RadioGroup>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="@string/question_type_save"
-            android:textSize="30sp"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

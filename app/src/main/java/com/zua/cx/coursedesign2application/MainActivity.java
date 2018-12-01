@@ -6,9 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.zua.cx.coursedesign2application.common.GetRandom;
-import com.zua.cx.coursedesign2application.model.QuestionDatabase;
-import com.zua.cx.coursedesign2application.model.QuestionTable;
+import com.zua.cx.coursedesign2application.model.QuestionData;
+import com.zua.cx.coursedesign2application.model.UserDataTable;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -46,6 +45,31 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    //检查用户数据库
+    public void checkUserDatabase(){
+        UserDataTable userDataTable = new UserDataTable(MainActivity.this);
+        int count = 0;
+        try {
+            count = userDataTable.selectCount("1=1");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(count<1){
+            Intent intent = new Intent(MainActivity.this,InitSettingActivity.class);
+            startActivity(intent);
+        }else{
+            QuestionData questionData = QuestionData.getQuestionData(MainActivity.this);
+            int carpassid = questionData.getExamType(MainActivity.this);
+            if(carpassid==2||carpassid==3){
+                Intent intent = new Intent(MainActivity.this,HomePageActivity.class);
+                startActivity(intent);
+            }else{
+                Intent intent = new Intent(MainActivity.this,InitSettingActivity.class);
+                startActivity(intent);
+            }
+
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +81,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         checkDatabase();
-        if(1==1){
-            Intent intent = HomePageActivity.getIntent(MainActivity.this);
-            startActivity(intent);
-        }
+        checkUserDatabase();
+//        if(1==1){
+//            Intent intent = HomePageActivity.getIntent(MainActivity.this);
+//            startActivity(intent);
+//        }
     }
 }
