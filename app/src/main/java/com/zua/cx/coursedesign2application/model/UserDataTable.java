@@ -2,6 +2,7 @@ package com.zua.cx.coursedesign2application.model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 
 import java.util.List;
 
@@ -27,10 +28,12 @@ public class UserDataTable extends UserDatabase {
         return mDatabase.insert("user_data",null,changeToValue(value));
     }
     //修改数据
-    public long updateList(String key,String value){
+    public long updateList(String key,int value){
+        Cursor cursor = select("1=1");
+        cursor.moveToNext();
+        String str = cursor.getString(0);
         ContentValues values = new ContentValues();
         values.put(key,value);
-        return mDatabase.update("user_data",values,
-                "1=1",new String []{});
+        return mDatabase.update("user_data",values,"id=?",new String[]{str});
     }
 }

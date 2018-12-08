@@ -57,15 +57,11 @@ public abstract class UserDatabase {
                     null,
                     null
             );
-            int count = 0;
-            while(cursor.moveToNext()){
-                count++ ;
-            }
-            return count;
+            cursor.moveToNext();
+            return cursor.getInt(0);
         }else{
             throw new SQLException("请表名不能为空");
         }
     }
-    //插入新记录
 
 }

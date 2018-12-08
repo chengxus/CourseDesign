@@ -41,7 +41,7 @@ public class RecyclerViewFragment extends Fragment {
         mTypeRecyclerView.setAdapter(mAdapter);
     }
 
-    private class TypeHolder extends RecyclerView.ViewHolder{
+    private class TypeHolder extends RecyclerView.ViewHolder {
 
         private Button buttonView = null;
         //题目id

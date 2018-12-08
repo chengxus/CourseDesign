@@ -13,7 +13,10 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.lang.Exception;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.zua.cx.coursedesign2application.model.CollectionTable;
 import com.zua.cx.coursedesign2application.model.Question;
 import com.zua.cx.coursedesign2application.model.QuestionData;
 
@@ -42,8 +45,8 @@ public class QuestionActivity extends AppCompatActivity {
         questionExplain = (TextView)    findViewById(R.id.question_explain);
         //上一题
         button1         = (Button)      findViewById(R.id.table_button1);
-        //收藏
-        button2         = (Button)      findViewById(R.id.table_button2);
+//        //收藏
+//        button2         = (Button)      findViewById(R.id.table_button2);
         //显示进度
         button3         = (Button)      findViewById(R.id.table_button3);
         //查看答案
@@ -58,17 +61,24 @@ public class QuestionActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {   //上一题
             @Override
             public void onClick(View v) {
-                //未完
                 Question question = questionData.lastQuestion();
                 updateQuestion();
             }
         });
-        button2.setOnClickListener(new View.OnClickListener() {     //收藏
+        /*button2.setOnClickListener(new View.OnClickListener() {     //收藏
             @Override
             public void onClick(View v) {
-
+                CollectionTable collectionTable = new CollectionTable(QuestionActivity.this);
+                String questionID = questionData.currentQuestion().getQuestionID();
+                int count  = collectionTable.selectCount(" question_id="+questionID);
+                if(count==0){
+                    List<String> data = new ArrayList<>();
+                    data.add(questionID);
+                    data.add(new Integer(questionData.currentQuestion().getQuestionType()).toString());
+                    collectionTable.insertList(data);
+                }
             }
-        });
+        });*/
         button4.setOnClickListener(new View.OnClickListener() {     //查看解析
             @Override
             public void onClick(View v) {
@@ -88,7 +98,7 @@ public class QuestionActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ShowGradeActivity.getIntent(QuestionActivity.this,100);
+                Intent intent = ShowGradeActivity.getIntent(QuestionActivity.this,questionData.getGrade());
                 startActivity(intent);
             }
         });

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.database.SQLException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.system.ErrnoException;
+import android.system.Os;
 import android.util.Log;
 
 import com.zua.cx.coursedesign2application.model.QuestionData;
@@ -18,7 +20,7 @@ import java.io.OutputStream;
 public class MainActivity extends AppCompatActivity {
 
     //检测题库是否存在
-    public void checkDatabase(){
+    public void checkDatabase() {
         String dbPath = "/data/data/com.zua.cx.coursedesign2application/databases/";
         String dbName = "question.db";
         File path = new File(dbPath);
@@ -26,8 +28,13 @@ public class MainActivity extends AppCompatActivity {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         if(!(file.exists())){
-            if((!path.exists())){
-                path.mkdirs();
+            //修改权限
+            if(!(path.exists())){
+                try {
+                    Os.mkdir(path.getAbsolutePath(),0771);
+                } catch (ErrnoException e) {
+                    e.printStackTrace();
+                }
             }
            try {
                 inputStream = getResources().openRawResource(R.raw.question);
@@ -36,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
                 int length;
                 while( ( length = inputStream.read(buff) ) > 0){
                     outputStream.write(buff,0,length);
-                    Log.i("testIO",new Integer(length).toString());
                 }
                inputStream.close();
                outputStream.close();
@@ -80,11 +86,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        //checkUserDatabase();
         checkDatabase();
-        checkUserDatabase();
-//        if(1==1){
-//            Intent intent = HomePageActivity.getIntent(MainActivity.this);
-//            startActivity(intent);
-//        }
+        Intent intent = HomePageActivity.getIntent(MainActivity.this);
+        startActivity(intent);
     }
 }

@@ -34,6 +34,15 @@ public class QuestionData {
     private List<String> questions;
     public Context context = null;
 
+    private List<Boolean> allAnswer =null;
+
+    public void init(){
+        allAnswer  = new ArrayList<>();
+        for(int i = 0;i < questions.size();i++){
+            allAnswer.add(false);
+        }
+    }
+
     //通过题目类型生成题目type表示题目类型，questionType表示考试类型,context用于实例化数据库连接，id表示用于分类的id
     public void createQuestions(int type, int examType, int id){
         saveType = type ;
@@ -51,8 +60,41 @@ public class QuestionData {
             default:
                 break;
         }
+        QuestionLogTable questionLogTable = new QuestionLogTable(context);
         while(cursor.moveToNext()){
             questions.add(cursor.getString(0));
+            /**
+             * userdata数据库部分未启用
+             */
+            /*List<String> data = new ArrayList<>();
+            data.add(cursor.getString(0));
+            data.add(cursor.getString(2));
+            //是否已做
+            data.add("0");
+            //用户答案
+            data.add("0");
+            //是否查看解析
+            data.add("0");
+            questionLogTable.insertList(data);*/
+        }
+        init();
+    }
+    //将筛选的题目写入数据库
+    private void writeLogdatabase(){
+        QuestionLogTable questionLogTable = new QuestionLogTable(context);
+        QuestionTable questionTable = new QuestionTable(context);
+        for(String id : questions){
+            Cursor cursor = questionLogTable.selectByID(Integer.parseInt(id));
+            List<String> data = new ArrayList<>();
+            data.add(cursor.getString(0));
+            data.add(cursor.getString(2));
+            //是否已做
+            data.add("0");
+            //用户答案
+            data.add("0");
+            //是否查看解析
+            data.add("0");
+            questionLogTable.insertList(data);
         }
     }
 
@@ -127,6 +169,11 @@ public class QuestionData {
             default:
                 break;
         }
+        /**
+         * userdata数据库部分未启用
+         */
+        //writeLogdatabase();
+        init();
     }
 
     private QuestionData(Context context){
@@ -167,6 +214,27 @@ public class QuestionData {
     //检查答案是否正确
     public boolean checkanswer(int userAnswer){
         int answer = currentQuestion().getQuestionAnswer();
+        /**
+         * 数据库部分未启用
+         */
+        /*QuestionLogTable questionLogTable = new QuestionLogTable(context);
+        questionLogTable.updateList(" record",new Integer(userAnswer).toString(), questions.get(index));
+        if(answer != userAnswer){
+            ErrorQuestionTable errorQuestionTable = new ErrorQuestionTable(context);
+            int count = errorQuestionTable.selectCount(" question_id="+questions.get(index));
+            if(count==0){
+                List<String> data = new ArrayList<>();
+                data.add(questions.get(index));
+                data.add(new Integer(saveExamType).toString());
+                //获取时间
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                data.add(df.format(new Date()));
+                errorQuestionTable.insertList(data);
+            }
+        }*/
+        if(answer == userAnswer && lookTheExplain == false){
+            allAnswer.set(index,true);
+        }
         return answer == userAnswer;
     }
     //获取当前题目
@@ -186,13 +254,20 @@ public class QuestionData {
                     .setOption3(cursor.getString(9))
                     .setOption4(cursor.getString(10));
         }
+        /**
+         * userdata数据库部分（未启用）
+         */
+        /*QuestionLogTable questionLogTable = new QuestionLogTable(context);
+        Cursor cursorLog = questionLogTable.selectByID(Integer.parseInt(questions.get(index)));
+        multiChoiceAnswer = cursorLog.getInt(4);
+        lookTheExplain = (cursor.getInt(5)==1);*/
         return question;
     }
     //下一题
     public Question nextQuestion(){
         index = (index + 1) % questions.size();
         multiChoiceAnswer = 0;
-        //需写入数据库
+        //需写入数据库（未完成）
         lookTheExplain = false;
 
         return currentQuestion();
@@ -201,7 +276,7 @@ public class QuestionData {
     public Question lastQuestion(){
         index = (index + questions.size() - 1) % questions.size();
         multiChoiceAnswer = 0;
-        //需写入数据库
+        //需写入数据库（未完成）
         lookTheExplain = false;
 
         return currentQuestion();
@@ -236,7 +311,7 @@ public class QuestionData {
         UserDataTable userDataTable = new UserDataTable(context);
         long temp;
         if(userDataTable.selectCount("1=1")>0){
-             temp= userDataTable.updateList("current_pass_id",new Integer(id).toString());
+             temp= userDataTable.updateList("current_pass_id",id);
         }else {
             List<String> list = new ArrayList<>();
             list.add(new Integer(id).toString());
@@ -255,5 +330,15 @@ public class QuestionData {
         }
         saveExamType = examType;
         return examType;
+    }
+    //获取成绩
+    public int getGrade(){
+        int count = 0;
+        for(Boolean temp : allAnswer){
+            if(temp){
+                count ++ ;
+            }
+        }
+        return (int)((double)count*100/(double)allAnswer.size());
     }
 }

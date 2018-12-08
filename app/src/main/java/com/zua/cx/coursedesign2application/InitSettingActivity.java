@@ -9,6 +9,11 @@ import android.widget.RadioGroup;
 
 import com.zua.cx.coursedesign2application.model.Question;
 import com.zua.cx.coursedesign2application.model.QuestionData;
+import com.zua.cx.coursedesign2application.model.UserDataBaseHelper;
+import com.zua.cx.coursedesign2application.model.UserDataTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 项目第一次启动时的初始化
@@ -43,9 +48,19 @@ public class InitSettingActivity extends AppCompatActivity {
                         break;
                 }
                 questionData.saveExamType = type;
-                questionData.changeCarPassID(type);
+                UserDataTable userDataTable = new UserDataTable(InitSettingActivity.this);
+                int count = userDataTable.selectCount("1=1");
+                if(count==0){
+                    List<String> list = new ArrayList<>();
+                    list.add(new Integer(type).toString());
+                    list.add("0");
+                    userDataTable.insertList(list);
+                }else{
+                    questionData.changeCarPassID(type);
+                }
                 Intent intent = HomePageActivity.getIntent(InitSettingActivity.this);
                 startActivity(intent);
+
             }
         });
     }

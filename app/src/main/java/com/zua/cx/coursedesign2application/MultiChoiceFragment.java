@@ -85,7 +85,7 @@ public class MultiChoiceFragment extends Fragment {
                     //第4位置1
                     QuestionData.multiChoiceAnswer |= (1 << 3);
                 }else{
-                    //第四位置0
+                    //第4位置0
                     QuestionData.multiChoiceAnswer &= ~(1 << 3);
                 }
             }
@@ -94,10 +94,10 @@ public class MultiChoiceFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    //第4位置1
+                    //第3位置1
                     QuestionData.multiChoiceAnswer |= (1 << 2);
                 }else{
-                    //第四位置0
+                    //第3位置0
                     QuestionData.multiChoiceAnswer &= ~(1 << 2);
                 }
             }
@@ -106,10 +106,10 @@ public class MultiChoiceFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    //第4位置1
+                    //第2位置1
                     QuestionData.multiChoiceAnswer |= (1 << 1);
                 }else{
-                    //第四位置0
+                    //第2位置0
                     QuestionData.multiChoiceAnswer &= ~(1 << 1);
                 }
             }
@@ -118,10 +118,10 @@ public class MultiChoiceFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    //第4位置1
+                    //第1位置1
                     QuestionData.multiChoiceAnswer |= 1;
                 }else{
-                    //第四位置0
+                    //第1位置0
                     QuestionData.multiChoiceAnswer &= ~1;
                 }
             }
